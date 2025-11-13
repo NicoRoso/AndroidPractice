@@ -11,6 +11,8 @@ import com.mirea.nabiulingb.data.local.ClientInfoDataSource;
 import com.mirea.nabiulingb.domain.models.User;
 import com.mirea.nabiulingb.domain.repositories.AuthRepository;
 
+import java.util.concurrent.ExecutionException;
+
 public class AuthRepositoryImpl implements AuthRepository {
     private final FirebaseAuth firebaseAuth;
     private final ClientInfoDataSource clientInfoDataSource;
@@ -36,7 +38,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             }
             return mapFirebaseUserToUser(firebaseUser);
 
-        } catch (Exception e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
         }
@@ -53,8 +55,8 @@ public class AuthRepositoryImpl implements AuthRepository {
             AuthResult authResult = Tasks.await(
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
             );
-
             FirebaseUser firebaseUser = authResult.getUser();
+
             if (firebaseUser != null) {
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(username)
@@ -75,10 +77,17 @@ public class AuthRepositoryImpl implements AuthRepository {
         }
     }
 
+    @Override
+    public String getUserName() {
+        return clientInfoDataSource.getUserName();
+    }
+
+    @Override
     public boolean isUserLoggedIn() {
         return firebaseAuth.getCurrentUser() != null;
     }
 
+    @Override
     public void logout() {
         firebaseAuth.signOut();
         clientInfoDataSource.clearClientInfo();
@@ -96,6 +105,7 @@ public class AuthRepositoryImpl implements AuthRepository {
 
         return new User(
                 domainId,
+                // Используем displayName из Firebase, если есть
                 firebaseUser.getDisplayName() != null ? firebaseUser.getDisplayName() : "User",
                 firebaseUser.getEmail(),
                 firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : null,

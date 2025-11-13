@@ -4,26 +4,22 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.mirea.nabiulingb.movieproject.R;
 import com.mirea.nabiulingb.movieproject.data.repository.MovieRepositoryImpl;
 import com.mirea.nabiulingb.movieproject.data.storage.MovieStorage;
+import com.mirea.nabiulingb.movieproject.data.storage.NetworkMovieStorage;
 import com.mirea.nabiulingb.movieproject.data.storage.impl.SharedPrefMovieStorage;
-import com.mirea.nabiulingb.movieproject.domain.models.Movie;
+import com.mirea.nabiulingb.movieproject.data.storage.impl.FakeNetworkMovieStorage;
 import com.mirea.nabiulingb.movieproject.domain.repository.MovieRepository;
-import com.mirea.nabiulingb.movieproject.domain.usecases.GetFavoriteFilmUseCase;
-import com.mirea.nabiulingb.movieproject.domain.usecases.SaveFilmToFavoriteUseCase;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextMovie;
     private TextView textViewMovie;
-    private MovieRepository movieRepository;
+    private MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,22 +30,27 @@ public class MainActivity extends AppCompatActivity {
         textViewMovie = findViewById(R.id.textViewMovie);
 
         MovieStorage movieStorage = new SharedPrefMovieStorage(this);
-        movieRepository = new MovieRepositoryImpl(movieStorage);
+        MovieRepository movieRepository = new MovieRepositoryImpl(movieStorage);
+        NetworkMovieStorage networkStorage = new FakeNetworkMovieStorage();
+
+        MainViewModelFactory factory = new MainViewModelFactory(movieRepository, networkStorage);
+        mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+
+        mainViewModel.getCombinedMovieData().observe(this, s -> {
+            textViewMovie.setText(s);
+        });
 
         findViewById(R.id.buttonSaveMovie).setOnClickListener(v -> {
             String movieName = editTextMovie.getText().toString();
             if (!movieName.isEmpty()) {
-                Movie movie = new Movie(1, movieName);
-                SaveFilmToFavoriteUseCase saveUseCase = new SaveFilmToFavoriteUseCase(movieRepository);
-                boolean result = saveUseCase.execute(movie);
-                textViewMovie.setText("Сохранено: " + result);
+                mainViewModel.saveMovie(movieName);
+            } else {
+                textViewMovie.setText("Введите название фильма");
             }
         });
 
         findViewById(R.id.buttonGetMovie).setOnClickListener(v -> {
-            GetFavoriteFilmUseCase getUseCase = new GetFavoriteFilmUseCase(movieRepository);
-            Movie movie = getUseCase.execute();
-            textViewMovie.setText("Фильм: " + movie.getName());
+            textViewMovie.setText("Загрузка комбинированных данных запущена...");
         });
     }
 }

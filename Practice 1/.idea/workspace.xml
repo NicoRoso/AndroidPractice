@@ -5,65 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4888307-5b5f-4960-8d74-e434790925d4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/presentation/ui/LoginActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/presentation/ui/RegisterActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/drawable/button_google.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/drawable/button_guest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/drawable/button_primary.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/drawable/rounded_edittext_background.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/layout/activity_register.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/consumer-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/androidTest/java/com/mirea/nabiulingb/data/ExampleInstrumentedTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/local/AppDatabase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/local/ClientInfoDataSource.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/local/dao/GameDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/local/entities/GameEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/remote/api/FakeGameApiService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/remote/api/GameApiService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/remote/api/MockCall.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/main/java/com/mirea/nabiulingb/data/remote/models/GameRemoteModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/data/src/test/java/com/mirea/nabiulingb/data/ExampleUnitTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/domain/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/domain/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/MyClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/usecases/auth/RegisterUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/data/repositories/AuthRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/data/repositories/CollectionRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/data/repositories/CommentRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/data/repositories/GameRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/data/repositories/WishlistRepositoryImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/models/Collection.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/models/Collection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/models/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/models/Comment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/models/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/models/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/models/WishlistItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/models/WishlistItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/repositories/AuthRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/repositories/AuthRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/repositories/CollectionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/repositories/CollectionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/repositories/CommentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/repositories/CommentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/repositories/GameRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/repositories/GameRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/repositories/WishlistRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/repositories/WishlistRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/usecases/auth/LoginUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/usecases/auth/LoginUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/usecases/collections/GetUserCollection.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/usecases/collections/GetUserCollection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/usecases/games/GetAllGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/usecases/games/GetAllGames.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/usecases/games/GetWishlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/usecases/games/GetWishlist.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/domain/usecases/games/SearchGames.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/domain/src/main/java/com/mirea/nabiulingb/domain/usecases/games/SearchGames.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/presentation/ui/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/java/com/mirea/nabiulingb/gamecatalog/presentation/ui/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/gradle/libs.versions.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../GameCatalog/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../GameCatalog/settings.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson9/movieproject/src/main/java/com/mirea/nabiulingb/movieproject/data/repository/MovieRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson9/movieproject/src/main/java/com/mirea/nabiulingb/movieproject/data/repository/MovieRepositoryImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lesson9/movieproject/src/main/java/com/mirea/nabiulingb/movieproject/presentation/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lesson9/movieproject/src/main/java/com/mirea/nabiulingb/movieproject/presentation/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lesson9.rar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +36,7 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/gnabi/Desktop/Github Projects/AndroidPractice/Practice 1"
+    "last_opened_file_path": "C:/Users/gnabi/Desktop/Github Projects/AndroidPractice/Practice 1/Lesson9"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

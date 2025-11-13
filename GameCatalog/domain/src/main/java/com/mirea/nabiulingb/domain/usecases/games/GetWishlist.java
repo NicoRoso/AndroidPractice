@@ -1,7 +1,7 @@
-package com.mirea.nabiulingb.domain.domain.usecases.games;
+package com.mirea.nabiulingb.domain.usecases.games;
 
-import com.mirea.nabiulingb.domain.domain.models.WishlistItem;
-import com.mirea.nabiulingb.domain.domain.repositories.WishlistRepository;
+import com.mirea.nabiulingb.domain.models.WishlistItem;
+import com.mirea.nabiulingb.domain.repositories.WishlistRepository;
 
 import java.util.List;
 

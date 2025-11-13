@@ -1,11 +1,10 @@
-package com.mirea.nabiulingb.data.dao;
+package com.mirea.nabiulingb.data.local.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.mirea.nabiulingb.data.entities.GameEntity;
 import com.mirea.nabiulingb.data.local.entities.GameEntity;
 
 import java.util.List;
@@ -18,6 +17,6 @@ public interface GameDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<GameEntity> games);
 
-    @Query("DELETE FROM games")
-    void deleteAll();
+    @Query("SELECT * FROM games WHERE id = :gameId")
+    GameEntity getGameById(int gameId);
 }

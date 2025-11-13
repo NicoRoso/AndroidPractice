@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "47205656205",
+    "project_id": "game-catalog-b3400",
+    "storage_bucket": "game-catalog-b3400.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47205656205:android:e5791f4d40ff66423864c4",
+        "android_client_info": {
+          "package_name": "com.mirea.nabiulingb.gamecatalog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnFa2lEk-siZB867Z9iI85iCOwhnNfX7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

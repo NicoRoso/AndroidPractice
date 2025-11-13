@@ -12,6 +12,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.mirea.nabiulingb.movieproject.R;
 import com.mirea.nabiulingb.movieproject.data.repository.MovieRepositoryImpl;
+import com.mirea.nabiulingb.movieproject.data.storage.MovieStorage;
+import com.mirea.nabiulingb.movieproject.data.storage.impl.SharedPrefMovieStorage;
 import com.mirea.nabiulingb.movieproject.domain.models.Movie;
 import com.mirea.nabiulingb.movieproject.domain.repository.MovieRepository;
 import com.mirea.nabiulingb.movieproject.domain.usecases.GetFavoriteFilmUseCase;
@@ -31,14 +33,17 @@ public class MainActivity extends AppCompatActivity {
         editTextMovie = findViewById(R.id.editTextMovie);
         textViewMovie = findViewById(R.id.textViewMovie);
 
-        movieRepository = new MovieRepositoryImpl(this);
+        MovieStorage movieStorage = new SharedPrefMovieStorage(this);
+        movieRepository = new MovieRepositoryImpl(movieStorage);
 
         findViewById(R.id.buttonSaveMovie).setOnClickListener(v -> {
             String movieName = editTextMovie.getText().toString();
-            Movie movie = new Movie(2, movieName);
-            SaveFilmToFavoriteUseCase saveUseCase = new SaveFilmToFavoriteUseCase(movieRepository);
-            boolean result = saveUseCase.execute(movie);
-            textViewMovie.setText("Сохранено: " + result);
+            if (!movieName.isEmpty()) {
+                Movie movie = new Movie(1, movieName);
+                SaveFilmToFavoriteUseCase saveUseCase = new SaveFilmToFavoriteUseCase(movieRepository);
+                boolean result = saveUseCase.execute(movie);
+                textViewMovie.setText("Сохранено: " + result);
+            }
         });
 
         findViewById(R.id.buttonGetMovie).setOnClickListener(v -> {

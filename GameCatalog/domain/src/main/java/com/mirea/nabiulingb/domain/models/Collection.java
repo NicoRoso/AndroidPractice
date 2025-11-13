@@ -1,4 +1,4 @@
-package com.mirea.nabiulingb.domain.domain.models;
+package com.mirea.nabiulingb.domain.models;
 
 import java.util.List;
 

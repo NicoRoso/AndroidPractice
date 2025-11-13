@@ -1,6 +1,6 @@
-package com.mirea.nabiulingb.domain.domain.repositories;
+package com.mirea.nabiulingb.domain.repositories;
 
-import com.mirea.nabiulingb.domain.domain.models.Collection;
+import com.mirea.nabiulingb.domain.models.Collection;
 
 import java.util.List;
 

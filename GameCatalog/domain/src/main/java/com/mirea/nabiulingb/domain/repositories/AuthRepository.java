@@ -1,6 +1,6 @@
-package com.mirea.nabiulingb.domain.domain.repositories;
+package com.mirea.nabiulingb.domain.repositories;
 
-import com.mirea.nabiulingb.domain.domain.models.User;
+import com.mirea.nabiulingb.domain.models.User;
 
 public interface AuthRepository {
     User login(String email, String password);

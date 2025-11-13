@@ -1,7 +1,7 @@
-package com.mirea.nabiulingb.domain.domain.usecases.auth;
+package com.mirea.nabiulingb.domain.usecases.auth;
 
-import com.mirea.nabiulingb.domain.domain.models.User;
-import com.mirea.nabiulingb.domain.domain.repositories.AuthRepository;
+import com.mirea.nabiulingb.domain.models.User;
+import com.mirea.nabiulingb.domain.repositories.AuthRepository;
 
 public class RegisterUser {
     private final AuthRepository authRepository;

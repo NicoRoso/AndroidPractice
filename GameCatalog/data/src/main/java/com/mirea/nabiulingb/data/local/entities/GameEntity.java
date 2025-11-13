@@ -1,4 +1,4 @@
-package com.mirea.nabiulingb.data.entities;
+package com.mirea.nabiulingb.data.local.entities;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -11,18 +11,24 @@ public class GameEntity {
     private final String description;
     private final String genre;
     private final String platform;
+    private final String releaseDate;
     private final double rating;
     private final String imageUrl;
+    private final Double price;
+    private final Integer discount;
 
     public GameEntity(int id, String title, String description, String genre,
-                      String platform, double rating, String imageUrl) {
+                      String platform, String releaseDate, double rating, String imageUrl, Double price, Integer discount) { // <--- ADDED releaseDate
         this.id = id;
         this.title = title;
         this.description = description;
         this.genre = genre;
         this.platform = platform;
+        this.releaseDate = releaseDate;
         this.rating = rating;
         this.imageUrl = imageUrl;
+        this.price = price;
+        this.discount = discount;
     }
 
     public int getId() { return id; }
@@ -30,6 +36,9 @@ public class GameEntity {
     public String getDescription() { return description; }
     public String getGenre() { return genre; }
     public String getPlatform() { return platform; }
+    public String getReleaseDate() { return releaseDate; }
     public double getRating() { return rating; }
     public String getImageUrl() { return imageUrl; }
+    public Double getPrice() { return price; }
+    public Integer getDiscount() { return discount; }
 }

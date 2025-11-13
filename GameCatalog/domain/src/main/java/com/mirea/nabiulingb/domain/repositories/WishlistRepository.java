@@ -1,6 +1,6 @@
-package com.mirea.nabiulingb.domain.domain.repositories;
+package com.mirea.nabiulingb.domain.repositories;
 
-import com.mirea.nabiulingb.domain.domain.models.WishlistItem;
+import com.mirea.nabiulingb.domain.models.WishlistItem;
 
 import java.util.List;
 import java.util.Map;

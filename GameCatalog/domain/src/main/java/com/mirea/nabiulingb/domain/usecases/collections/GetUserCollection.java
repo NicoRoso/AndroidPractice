@@ -1,7 +1,7 @@
-package com.mirea.nabiulingb.domain.domain.usecases.collections;
+package com.mirea.nabiulingb.domain.usecases.collections;
 
-import com.mirea.nabiulingb.domain.domain.models.Collection;
-import com.mirea.nabiulingb.domain.domain.repositories.CollectionRepository;
+import com.mirea.nabiulingb.domain.models.Collection;
+import com.mirea.nabiulingb.domain.repositories.CollectionRepository;
 
 import java.util.List;
 

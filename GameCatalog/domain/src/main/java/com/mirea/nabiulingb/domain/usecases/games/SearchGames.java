@@ -1,7 +1,7 @@
-package com.mirea.nabiulingb.domain.domain.usecases.games;
+package com.mirea.nabiulingb.domain.usecases.games;
 
-import com.mirea.nabiulingb.domain.domain.models.Game;
-import com.mirea.nabiulingb.domain.domain.repositories.GameRepository;
+import com.mirea.nabiulingb.domain.models.Game;
+import com.mirea.nabiulingb.domain.repositories.GameRepository;
 
 import java.util.List;
 

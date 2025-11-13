@@ -22,3 +22,6 @@ dependencyResolutionManagement {
 rootProject.name = "Lesson9"
 include(":app")
 include(":movieproject")
+include(":scrollviewapp")
+include(":listviewapp")
+include(":recyclerviewapp")

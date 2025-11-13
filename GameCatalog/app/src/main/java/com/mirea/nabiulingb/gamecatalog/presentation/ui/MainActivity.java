@@ -2,21 +2,28 @@ package com.mirea.nabiulingb.gamecatalog.presentation.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mirea.nabiulingb.data.repositories.AuthRepositoryImpl;
 import com.mirea.nabiulingb.gamecatalog.R;
 import com.mirea.nabiulingb.gamecatalog.presentation.viewmodel.MainViewModel;
 import com.mirea.nabiulingb.gamecatalog.presentation.viewmodel.MainViewModelFactory;
 
+import java.util.Collections;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvTitle;
-    private TextView tvResult;
+    private TextView tvStatus;
+    private RecyclerView recyclerView;
+    private GameAdapter gameAdapter;
     private Button btnGetAllGames, btnSearchGames, btnGetCollections, btnGetWishlist, btnLogout;
 
     private AuthRepositoryImpl authRepository;
@@ -38,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         initUI();
         initViewModel();
+        initRecyclerView();
         setListeners();
+        setObservers();
 
         tvTitle.setText("Game Catalog (" + authRepository.getUserName() + ")");
     }
@@ -46,14 +55,36 @@ public class MainActivity extends AppCompatActivity {
     private void initViewModel() {
         MainViewModelFactory factory = new MainViewModelFactory(this);
         mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+    }
 
-        // Подписываемся на LiveData: когда _resultText обновится, обновится и tvResult
-        mainViewModel.getResultText().observe(this, s -> tvResult.setText(s));
+    private void initRecyclerView() {
+        gameAdapter = new GameAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(gameAdapter);
+    }
+
+    private void setObservers() {
+        mainViewModel.getGamesList().observe(this, games -> {
+            if (games != null && !games.isEmpty()) {
+                gameAdapter.setGameList(games);
+                recyclerView.setVisibility(View.VISIBLE);
+                tvStatus.setVisibility(View.GONE);
+            } else {
+                gameAdapter.setGameList(Collections.emptyList());
+                recyclerView.setVisibility(View.GONE);
+                tvStatus.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mainViewModel.getStatusText().observe(this, status -> {
+            tvStatus.setText(status);
+        });
     }
 
     private void initUI() {
         tvTitle = findViewById(R.id.tvTitle);
-        tvResult = findViewById(R.id.tvResult);
+        tvStatus = findViewById(R.id.tvStatus);
+        recyclerView = findViewById(R.id.recyclerView);
         btnGetAllGames = findViewById(R.id.btnGetAllGames);
         btnSearchGames = findViewById(R.id.btnSearchGames);
         btnGetCollections = findViewById(R.id.btnGetCollections);
@@ -74,11 +105,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchGames() {
-        tvResult.setText("Функционал поиска игр еще не интегрирован в ViewModel.");
+        final String TEST_QUERY = "RPG";
+        mainViewModel.searchGames(TEST_QUERY);;
     }
 
     private void getCollections() {
-        // Вызываем новый метод ViewModel
         mainViewModel.getCollections(MOCK_USER_ID);
     }
 

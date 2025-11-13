@@ -16,6 +16,7 @@ import com.mirea.nabiulingb.domain.repositories.WishlistRepository;
 import com.mirea.nabiulingb.domain.usecases.collections.GetUserCollection;
 import com.mirea.nabiulingb.domain.usecases.games.GetAllGames;
 import com.mirea.nabiulingb.domain.usecases.games.GetWishlist;
+import com.mirea.nabiulingb.domain.usecases.games.SearchGames;
 
 public class MainViewModelFactory implements ViewModelProvider.Factory {
     private final Context context;
@@ -32,14 +33,15 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
                     AppDatabase.getDatabase(context).gameDao(),
                     new FakeGameApiService()
             );
-            CollectionRepository collectionRepository = new CollectionRepositoryImpl(); // Создание CollectionRepository
-            WishlistRepository wishlistRepository = new WishlistRepositoryImpl();       // Создание WishlistRepository
+            CollectionRepository collectionRepository = new CollectionRepositoryImpl();
+            WishlistRepository wishlistRepository = new WishlistRepositoryImpl();
 
             GetAllGames getAllGamesUseCase = new GetAllGames(gameRepository);
-            GetUserCollection getUserCollectionUseCase = new GetUserCollection(collectionRepository); // Создание GetUserCollection
-            GetWishlist getWishlistUseCase = new GetWishlist(wishlistRepository);                     // Создание GetWishlist
+            GetUserCollection getUserCollectionUseCase = new GetUserCollection(collectionRepository);
+            GetWishlist getWishlistUseCase = new GetWishlist(wishlistRepository);
+            SearchGames searchGamesUseCase = new SearchGames(gameRepository);
 
-            return (T) new MainViewModel(getAllGamesUseCase, getUserCollectionUseCase, getWishlistUseCase);
+            return (T) new MainViewModel(getAllGamesUseCase, getUserCollectionUseCase, getWishlistUseCase, searchGamesUseCase);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

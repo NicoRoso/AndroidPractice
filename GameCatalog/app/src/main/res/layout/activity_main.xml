@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center">
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -49,16 +49,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Выход"
-        android:layout_marginBottom="32dp" />
+        android:layout_marginBottom="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
 
     <TextView
-        android:id="@+id/tvResult"
+        android:id="@+id/tvStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Результат будет здесь..."
-        android:textSize="16sp"
-        android:background="#f0f0f0"
-        android:padding="16dp"
-        android:minHeight="120dp" />
+        android:text="Нажмите 'Получить все игры'..."
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginTop="16dp" />
 
 </LinearLayout>

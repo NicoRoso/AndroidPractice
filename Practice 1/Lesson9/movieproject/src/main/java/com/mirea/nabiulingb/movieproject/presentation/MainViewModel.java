@@ -73,4 +73,8 @@ public class MainViewModel extends ViewModel {
         updateCombinedLiveData();
         combinedMovieData.setValue("Сохранено в DB: " + (result ? movie.getName() : "Ошибка сохранения"));
     }
+
+    public void refreshMovies() {
+        loadCombinedMovies();
+    }
 }

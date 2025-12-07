@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.buttonGetMovie).setOnClickListener(v -> {
             textViewMovie.setText("Загрузка комбинированных данных запущена...");
+            mainViewModel.refreshMovies();
         });
     }
 }

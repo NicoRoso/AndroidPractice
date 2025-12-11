@@ -3,13 +3,13 @@ package com.mirea.nabiulingb.gamecatalog.presentation.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView; // <-- ДОБАВЛЕНО
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mirea.nabiulingb.domain.models.Game;
 import com.mirea.nabiulingb.gamecatalog.R;
-import com.squareup.picasso.Picasso; // <-- ДОБАВЛЕНО
+import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;

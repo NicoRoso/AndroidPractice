@@ -10,4 +10,5 @@ public interface AuthRepository {
     String getUserName();
     boolean isUserLoggedIn();
     void logout();
+    String getUserEmail();
 }

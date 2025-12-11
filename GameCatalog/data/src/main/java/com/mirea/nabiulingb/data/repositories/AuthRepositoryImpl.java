@@ -37,7 +37,6 @@ public class AuthRepositoryImpl implements AuthRepository {
                 );
             }
             return mapFirebaseUserToUser(firebaseUser);
-
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
             return null;
@@ -45,12 +44,7 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public User loginWithOAuth(String provider, String token) {
-        return null;
-    }
-
-    @Override
-    public User register(String username, String email, String password) {
+    public User register(String email, String password, String username) {
         try {
             AuthResult authResult = Tasks.await(
                     firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -78,8 +72,19 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
+    public User loginWithOAuth(String providerName, String token) {
+        return null;
+    }
+
+    @Override
     public String getUserName() {
         return clientInfoDataSource.getUserName();
+    }
+
+    @Override
+    public String getUserEmail() {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        return user != null && user.getEmail() != null ? user.getEmail() : "Email не найден";
     }
 
     @Override
@@ -105,7 +110,6 @@ public class AuthRepositoryImpl implements AuthRepository {
 
         return new User(
                 domainId,
-                // Используем displayName из Firebase, если есть
                 firebaseUser.getDisplayName() != null ? firebaseUser.getDisplayName() : "User",
                 firebaseUser.getEmail(),
                 firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : null,

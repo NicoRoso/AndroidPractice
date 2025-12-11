@@ -33,45 +33,44 @@ public class MainViewModel extends ViewModel {
     private final GetUserCollection getUserCollectionUseCase;
     private final GetWishlist getWishlistUseCase;
     private final SearchGames searchGamesUseCase;
+
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public MainViewModel(GetAllGames getAllGamesUseCase,
                          GetUserCollection getUserCollectionUseCase,
-                         GetWishlist getWishlistUseCase, SearchGames searchGamesUseCase) {
+                         GetWishlist getWishlistUseCase,
+                         SearchGames searchGamesUseCase) {
         this.getAllGamesUseCase = getAllGamesUseCase;
         this.getUserCollectionUseCase = getUserCollectionUseCase;
         this.getWishlistUseCase = getWishlistUseCase;
         this.searchGamesUseCase = searchGamesUseCase;
-
-        _statusText.setValue("Нажмите кнопку для загрузки игр.");
     }
 
     public void getAllGames() {
         _statusText.setValue("Загрузка всех игр...");
-        _gamesList.setValue(Collections.emptyList());
 
         executor.execute(() -> {
             try {
                 List<Game> games = getAllGamesUseCase.execute();
-
                 _gamesList.postValue(games);
-                _statusText.postValue("Успешно получено игр: " + games.size());
+                _statusText.postValue("Загружено игр: " + games.size());
             } catch (Exception e) {
-                _statusText.postValue("Ошибка при получении списка игр: " + e.getMessage());
+                _statusText.postValue("Ошибка при получении всех игр: " + e.getMessage());
                 _gamesList.postValue(Collections.emptyList());
             }
         });
     }
 
     public void getCollections(int userId) {
-        _statusText.setValue("Получение коллекций (пока выводит текст)...");
+        _statusText.setValue("Получение коллекций пользователя " + userId + "...");
+
         executor.execute(() -> {
             try {
                 List<Collection> collections = getUserCollectionUseCase.execute(userId);
-                StringBuilder result = new StringBuilder("Коллекции (" + collections.size() + "):\\n");
+                StringBuilder result = new StringBuilder("Коллекции (" + collections.size() + "):\n");
                 for (Collection collection : collections) {
                     result.append("• ").append(collection.getName())
-                            .append(" (Игр: ").append(collection.getGames().size()).append(")\\n");
+                            .append(" - игр: ").append(collection.getGames().size()).append("\n");
                 }
                 _statusText.postValue(result.toString());
             } catch (Exception e) {
@@ -81,14 +80,15 @@ public class MainViewModel extends ViewModel {
     }
 
     public void getWishlist(int userId) {
-        _statusText.setValue("Получение списка желаний (пока выводит текст)...");
+        _statusText.setValue("Получение списка желаний пользователя " + userId + "...");
+
         executor.execute(() -> {
             try {
                 List<WishlistItem> wishlist = getWishlistUseCase.execute(userId);
-                StringBuilder result = new StringBuilder("Список желаний (" + wishlist.size() + "):\\n");
+                StringBuilder result = new StringBuilder("Список желаний (" + wishlist.size() + "):\n");
                 for (WishlistItem item : wishlist) {
                     result.append("• ").append(item.getGame().getTitle())
-                            .append(" - добавлено: ").append(item.getAddedDate()).append("\\n");
+                            .append(" - добавлено: ").append(item.getAddedDate()).append("\n");
                 }
                 _statusText.postValue(result.toString());
             } catch (Exception e) {
@@ -116,6 +116,6 @@ public class MainViewModel extends ViewModel {
     @Override
     protected void onCleared() {
         super.onCleared();
-        executor.shutdown();
+        executor.shutdownNow();
     }
 }

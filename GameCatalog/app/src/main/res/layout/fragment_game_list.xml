@@ -6,61 +6,37 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_horizontal"
+    android:background="@android:color/black"
     tools:context=".presentation.ui.fragment.GameListFragment">
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Game Catalog"
+        android:text="Каталог Игр"
         android:textSize="28sp"
         android:textStyle="bold"
+        android:textColor="@android:color/white"
         android:gravity="center"
-        android:layout_marginBottom="32dp" />
-
-    <Button
-        android:id="@+id/btnGetAllGames"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Получить все игры"
         android:layout_marginBottom="16dp" />
-
-    <Button
-        android:id="@+id/btnSearchGames"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Поиск игр (RPG)"
-        android:layout_marginBottom="16dp" />
-
-    <Button
-        android:id="@+id/btnGetCollections"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Мои коллекции"
-        android:layout_marginBottom="16dp" />
-
-    <Button
-        android:id="@+id/btnGetWishlist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Список желаний"
-        android:layout_marginBottom="32dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="16dp"
-        android:visibility="gone" />
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        tools:listitem="@layout/game_item" />
 
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Нажмите 'Получить все игры'..."
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
+        android:text="Загрузка данных..."
+        android:textColor="#AAAAAA"
+        android:textSize="18sp"
+        android:visibility="visible" />
 
 </LinearLayout>

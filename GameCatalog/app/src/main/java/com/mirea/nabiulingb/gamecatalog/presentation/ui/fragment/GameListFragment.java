@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.mirea.nabiulingb.domain.models.Game;
 import com.mirea.nabiulingb.gamecatalog.R;
 import com.mirea.nabiulingb.gamecatalog.presentation.ui.GameAdapter;
@@ -26,11 +26,7 @@ public class GameListFragment extends Fragment {
     private TextView tvStatus;
     private RecyclerView recyclerView;
     private GameAdapter gameAdapter;
-    private Button btnGetAllGames, btnSearchGames, btnGetCollections, btnGetWishlist;
-
     private MainViewModel mainViewModel;
-
-    private final int MOCK_USER_ID = 1;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -43,34 +39,28 @@ public class GameListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initViews(view);
-
-        setupRecyclerView();
         setupViewModel();
-
-        setListeners();
-
+        setupRecyclerView();
         observeViewModel();
+
+        getAllGamesOnStart();
     }
 
     private void initViews(View view) {
         tvTitle = view.findViewById(R.id.tvTitle);
         tvStatus = view.findViewById(R.id.tvStatus);
         recyclerView = view.findViewById(R.id.recyclerView);
-        btnGetAllGames = view.findViewById(R.id.btnGetAllGames);
-        btnSearchGames = view.findViewById(R.id.btnSearchGames);
-        btnGetCollections = view.findViewById(R.id.btnGetCollections);
-        btnGetWishlist = view.findViewById(R.id.btnGetWishlist);
-    }
-
-    private void setupRecyclerView() {
-        gameAdapter = new GameAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(gameAdapter);
     }
 
     private void setupViewModel() {
         MainViewModelFactory factory = new MainViewModelFactory(requireContext());
-        mainViewModel = new ViewModelProvider(requireActivity(), factory).get(MainViewModel.class);
+        mainViewModel = new ViewModelProvider(this, factory).get(MainViewModel.class);
+    }
+
+    private void setupRecyclerView() {
+        gameAdapter = new GameAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setAdapter(gameAdapter);
     }
 
     private void observeViewModel() {
@@ -93,31 +83,8 @@ public class GameListFragment extends Fragment {
         });
     }
 
-    private void setListeners() {
-        btnGetAllGames.setOnClickListener(v -> getAllGames());
-        btnSearchGames.setOnClickListener(v -> searchGames());
-        btnGetCollections.setOnClickListener(v -> getCollections());
-        btnGetWishlist.setOnClickListener(v -> getWishlist());
-    }
-
-    private void getAllGames() {
+    private void getAllGamesOnStart() {
         tvStatus.setText("Загрузка всех игр...");
         mainViewModel.getAllGames();
-    }
-
-    private void searchGames() {
-        final String TEST_QUERY = "RPG";
-        tvStatus.setText("Поиск игр по запросу: '" + TEST_QUERY + "'...");
-        mainViewModel.searchGames(TEST_QUERY);
-    }
-
-    private void getCollections() {
-        tvStatus.setText("Получение коллекций...");
-        mainViewModel.getCollections(MOCK_USER_ID);
-    }
-
-    private void getWishlist() {
-        tvStatus.setText("Получение списка желаний...");
-        mainViewModel.getWishlist(MOCK_USER_ID);
     }
 }

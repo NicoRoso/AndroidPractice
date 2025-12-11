@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.mirea.nabiulingb.data.local.AppDatabase;
 import com.mirea.nabiulingb.data.remote.api.FakeGameApiService;
+import com.mirea.nabiulingb.data.remote.api.RetrofitClient;
 import com.mirea.nabiulingb.data.repositories.CollectionRepositoryImpl;
 import com.mirea.nabiulingb.data.repositories.GameRepositoryImpl;
 import com.mirea.nabiulingb.data.repositories.WishlistRepositoryImpl;
@@ -31,7 +32,7 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(MainViewModel.class)) {
             GameRepository gameRepository = new GameRepositoryImpl(
                     AppDatabase.getDatabase(context).gameDao(),
-                    new FakeGameApiService()
+                    RetrofitClient.getGameApiService()
             );
             CollectionRepository collectionRepository = new CollectionRepositoryImpl();
             WishlistRepository wishlistRepository = new WishlistRepositoryImpl();

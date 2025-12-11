@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Game Catalog</string>
+    <string name="game_image">Изображение обложки игры</string>
 </resources>

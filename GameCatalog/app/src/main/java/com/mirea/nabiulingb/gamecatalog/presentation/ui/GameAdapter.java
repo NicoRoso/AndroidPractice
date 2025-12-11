@@ -3,13 +3,14 @@ package com.mirea.nabiulingb.gamecatalog.presentation.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView; // <-- ДОБАВЛЕНО
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mirea.nabiulingb.domain.models.Game;
 import com.mirea.nabiulingb.gamecatalog.R;
+import com.squareup.picasso.Picasso; // <-- ДОБАВЛЕНО
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,16 +44,30 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
     static class GameViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvTitle;
         private final TextView tvGenre;
+        private final ImageView ivGameImage;
 
         public GameViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvGameTitle);
             tvGenre = itemView.findViewById(R.id.tvGameGenre);
+            ivGameImage = itemView.findViewById(R.id.ivGameImage);
         }
 
         public void bind(Game game) {
             tvTitle.setText(game.getTitle());
             tvGenre.setText(String.format("Жанр: %s | Рейтинг: %.1f", game.getGenre(), game.getRating()));
+
+            String imageUrl = game.getImageUrl();
+
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                Picasso.get()
+                        .load(imageUrl)
+                        .placeholder(R.drawable.loading_placeholder)
+                        .error(R.drawable.error_placeholder)
+                        .into(ivGameImage);
+            } else {
+                ivGameImage.setImageResource(R.drawable.no_image_available);
+            }
         }
     }
 }

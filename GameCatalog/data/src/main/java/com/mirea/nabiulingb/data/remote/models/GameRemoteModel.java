@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class GameRemoteModel {
     @SerializedName("id")
     private final int id;
-    @SerializedName("title")
+    @SerializedName("name")
     private final String title;
     @SerializedName("description")
     private final String description;
@@ -17,7 +17,7 @@ public class GameRemoteModel {
     private final String releaseDate;
     @SerializedName("rating")
     private final double rating;
-    @SerializedName("image_url")
+    @SerializedName("background_image")
     private final String imageUrl;
     @SerializedName("price")
     private final Double price;

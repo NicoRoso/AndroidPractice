@@ -1,5 +1,6 @@
 package com.mirea.nabiulingb.data.remote.api;
 
+import com.mirea.nabiulingb.data.remote.models.GameListResponse;
 import com.mirea.nabiulingb.data.remote.models.GameRemoteModel;
 
 import java.util.ArrayList;
@@ -15,18 +16,20 @@ public class FakeGameApiService implements GameApiService {
     private final List<GameRemoteModel> mockGames = createMockGames();
 
     @Override
-    public Call<List<GameRemoteModel>> getAllGames() {
+    public Call<GameListResponse> getAllGames(String apiKey) {
         try {
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        return new MockCall<>(Response.success(mockGames));
+        // Оборачиваем mockGames в GameListResponse
+        GameListResponse responseBody = new GameListResponse(mockGames.size(), mockGames);
+        return new MockCall<>(Response.success(responseBody));
     }
 
     @Override
-    public Call<List<GameRemoteModel>> searchGames(String query) {
+    public Call<GameListResponse> searchGames(String apiKey, String query) {
         try {
             TimeUnit.MILLISECONDS.sleep(500);
         } catch (InterruptedException e) {
@@ -39,7 +42,8 @@ public class FakeGameApiService implements GameApiService {
                         game.getGenre().toLowerCase().contains(lowerCaseQuery))
                 .collect(Collectors.toList());
 
-        return new MockCall<>(Response.success(filteredGames));
+        GameListResponse responseBody = new GameListResponse(filteredGames.size(), filteredGames);
+        return new MockCall<>(Response.success(responseBody));
     }
 
     private List<GameRemoteModel> createMockGames() {

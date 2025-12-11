@@ -3,6 +3,7 @@ package com.mirea.nabiulingb.data.repositories;
 import com.mirea.nabiulingb.data.local.dao.GameDao;
 import com.mirea.nabiulingb.data.local.entities.GameEntity;
 import com.mirea.nabiulingb.data.remote.api.GameApiService;
+import com.mirea.nabiulingb.data.remote.models.GameListResponse;
 import com.mirea.nabiulingb.data.remote.models.GameRemoteModel;
 import com.mirea.nabiulingb.domain.models.Game;
 import com.mirea.nabiulingb.domain.repositories.GameRepository;
@@ -97,15 +98,19 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public List<Game> getAllGames() {
         try {
-            Response<List<GameRemoteModel>> response = apiService.getAllGames().execute();
+            Response<GameListResponse> response =
+                    apiService.getAllGames(GameApiService.API_KEY).execute();
 
             if (response.isSuccessful() && response.body() != null) {
-                List<GameRemoteModel> remoteGames = response.body();
+                List<GameRemoteModel> remoteGames = response.body().getResults();
 
                 List<GameEntity> entitiesToCache = mapRemoteToEntities(remoteGames);
                 gameDao.insertAll(entitiesToCache);
 
                 return mapRemoteToDomains(remoteGames);
+            } else {
+                String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                System.err.println("API Error " + response.code() + ": " + errorBody);
             }
         } catch (IOException e) {
             System.err.println("API Error. Falling back to local cache: " + e.getMessage());
@@ -120,9 +125,14 @@ public class GameRepositoryImpl implements GameRepository {
     @Override
     public List<Game> searchGames(String query) {
         try {
-            Response<List<GameRemoteModel>> response = apiService.searchGames(query).execute();
+            Response<GameListResponse> response =
+                    apiService.searchGames(GameApiService.API_KEY, query).execute();
+
             if (response.isSuccessful() && response.body() != null) {
-                return mapRemoteToDomains(response.body());
+                return mapRemoteToDomains(response.body().getResults());
+            } else {
+                String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
+                System.err.println("Search API Error " + response.code() + ": " + errorBody);
             }
         } catch (IOException e) {
             System.err.println("API Error during search: " + e.getMessage());

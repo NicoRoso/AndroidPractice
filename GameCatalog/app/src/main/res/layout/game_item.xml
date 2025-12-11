@@ -7,6 +7,14 @@
     android:layout_marginBottom="8dp"
     android:background="#222222">
 
+    <ImageView
+        android:id="@+id/ivGameImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="8dp"
+        android:contentDescription="@string/game_image" />
+
     <TextView
         android:id="@+id/tvGameTitle"
         android:layout_width="wrap_content"

@@ -5,6 +5,7 @@ import com.mirea.nabiulingb.data.local.entities.GameEntity;
 import com.mirea.nabiulingb.data.remote.api.GameApiService;
 import com.mirea.nabiulingb.data.remote.models.GameListResponse;
 import com.mirea.nabiulingb.data.remote.models.GameRemoteModel;
+import com.mirea.nabiulingb.data.remote.models.GenreRemoteModel;
 import com.mirea.nabiulingb.domain.models.Game;
 import com.mirea.nabiulingb.domain.repositories.GameRepository;
 
@@ -49,12 +50,21 @@ public class GameRepositoryImpl implements GameRepository {
         return games;
     }
 
+    private String extractPrimaryGenreName(List<GenreRemoteModel> genres) {
+        if (genres != null && !genres.isEmpty()) {
+            return genres.get(0).getName();
+        }
+        return null;
+    }
+
     private GameEntity mapRemoteToEntity(GameRemoteModel remote) {
+        String primaryGenre = extractPrimaryGenreName(remote.getGenres());
+
         return new GameEntity(
                 remote.getId(),
                 remote.getTitle(),
                 remote.getDescription(),
-                remote.getGenre(),
+                primaryGenre,
                 remote.getPlatform(),
                 remote.getReleaseDate(),
                 remote.getRating(),
@@ -65,11 +75,13 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     private Game mapRemoteToDomain(GameRemoteModel remote) {
+        String primaryGenre = extractPrimaryGenreName(remote.getGenres());
+
         return new Game(
                 remote.getId(),
                 remote.getTitle(),
                 remote.getDescription(),
-                remote.getGenre(),
+                primaryGenre,
                 remote.getPlatform(),
                 remote.getReleaseDate(),
                 remote.getRating(),
@@ -161,6 +173,7 @@ public class GameRepositoryImpl implements GameRepository {
             }
         }).start();
     }
+
     private List<GameEntity> createTestGameEntities() {
         List<GameEntity> games = new ArrayList<>();
 

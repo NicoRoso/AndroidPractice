@@ -1,6 +1,7 @@
 package com.mirea.nabiulingb.data.remote.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class GameRemoteModel {
     @SerializedName("id")
@@ -9,8 +10,10 @@ public class GameRemoteModel {
     private final String title;
     @SerializedName("description")
     private final String description;
-    @SerializedName("genre")
-    private final String genre;
+
+    @SerializedName("genres")
+    private final List<GenreRemoteModel> genres;
+
     @SerializedName("platform")
     private final String platform;
     @SerializedName("release_date")
@@ -24,13 +27,13 @@ public class GameRemoteModel {
     @SerializedName("discount")
     private final Integer discount;
 
-    public GameRemoteModel(int id, String title, String description, String genre,
+    public GameRemoteModel(int id, String title, String description, List<GenreRemoteModel> genres, // Изменен конструктор
                            String platform, String releaseDate, double rating,
                            String imageUrl, Double price, Integer discount) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.genre = genre;
+        this.genres = genres;
         this.platform = platform;
         this.releaseDate = releaseDate;
         this.rating = rating;
@@ -42,7 +45,9 @@ public class GameRemoteModel {
     public int getId() { return id; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }
-    public String getGenre() { return genre; }
+
+    public List<GenreRemoteModel> getGenres() { return genres; }
+
     public String getPlatform() { return platform; }
     public String getReleaseDate() { return releaseDate; }
     public double getRating() { return rating; }

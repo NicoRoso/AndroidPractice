@@ -55,7 +55,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
 
         public void bind(Game game) {
             tvTitle.setText(game.getTitle());
-            tvGenre.setText(String.format("Жанр: %s | Рейтинг: %.1f", game.getGenre(), game.getRating()));
+
+            // --- ИСПРАВЛЕННАЯ ЛОГИКА ДЛЯ ЖАНРА ---
+            String genre = game.getGenre();
+            String displayGenre = (genre != null && !genre.trim().isEmpty())
+                    ? genre
+                    : "Неизвестный"; // Отображаем "Неизвестный" вместо null
+
+            tvGenre.setText(String.format("Жанр: %s | Рейтинг: %.1f", displayGenre, game.getRating()));
+            // ------------------------------------
 
             String imageUrl = game.getImageUrl();
 

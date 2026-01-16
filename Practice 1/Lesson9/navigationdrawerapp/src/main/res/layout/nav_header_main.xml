@@ -12,6 +12,16 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <Button
+        android:id="@+id/btn_close_drawer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="✕ Закрыть"
+        android:background="?android:attr/selectableItemBackground"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -31,5 +41,5 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nav_header_subtitle" />
+        android:text="Нажмите кнопку 'Назад' на устройстве" />
 </LinearLayout>

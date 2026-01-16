@@ -1,6 +1,7 @@
 package com.mirea.nabiulingb.resultapifragmentapp;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -20,6 +21,15 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.fragment_container_result, new ReceiverFragment())
                     .commit();
         }
+
+        getSupportFragmentManager().setFragmentResultListener(
+                "requestKey",
+                this,
+                (requestKey, bundle) -> {
+                    String result = bundle.getString("key");
+                    Log.d("MainActivity", "Activity получила: " + result);
+                }
+        );
 
         btnOpenSender.setOnClickListener(v -> {
             fragmentManager.beginTransaction()

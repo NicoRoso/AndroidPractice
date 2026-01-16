@@ -7,9 +7,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.fragment.NavHostFragment; // ДОБАВЛЕН ИМПОРТ
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.mirea.nabiulingb.navigationdrawerapp.databinding.ActivityMainBinding;
+import android.view.View; // Добавить этот импорт
+import android.widget.Button; // Добавить этот импорт
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(binding.navView, navController);
         }
+
+        View headerView = binding.navView.getHeaderView(0);
+        Button btnCloseDrawer = headerView.findViewById(R.id.btn_close_drawer);
+        if (btnCloseDrawer != null) {
+            btnCloseDrawer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drawer.closeDrawer(GravityCompat.START);
+                }
+            });
+        }
     }
 
     @Override
@@ -59,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        DrawerLayout drawer = binding.drawerLayout;
+
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

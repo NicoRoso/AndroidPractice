@@ -15,12 +15,12 @@
         android:layout_marginBottom="16dp"/>
 
     <TextView
-        android:id="@+id/text_view_bottom_sheet_result"
+        android:id="@+id/text_view_bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ожидание данных от DataFragment..."
+        android:text="Ожидание данных..."
         android:textSize="16sp"
-        android:padding="8dp"
+        android:padding="12dp"
         android:background="#F0F0F0"/>
 
     <Button
@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Закрыть"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="end"/>
+        android:layout_gravity="end"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>

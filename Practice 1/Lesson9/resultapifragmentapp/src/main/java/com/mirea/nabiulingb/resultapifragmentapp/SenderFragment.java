@@ -12,8 +12,8 @@ import androidx.fragment.app.Fragment;
 
 public class SenderFragment extends Fragment {
 
-    public static final String REQUEST_KEY = ReceiverFragment.REQUEST_KEY;
-    public static final String BUNDLE_KEY = ReceiverFragment.BUNDLE_KEY;
+    public static final String REQUEST_KEY = "requestKey";
+    public static final String BUNDLE_KEY = "key";
 
     @Nullable
     @Override
@@ -31,6 +31,9 @@ public class SenderFragment extends Fragment {
             result.putString(BUNDLE_KEY, message);
 
             getParentFragmentManager().setFragmentResult(REQUEST_KEY, result);
+
+            BottomSheetFragment bottomSheet = new BottomSheetFragment();
+            bottomSheet.show(getParentFragmentManager(), "BottomSheetTag");
 
             getParentFragmentManager().popBackStack();
         });

@@ -13,8 +13,8 @@ import androidx.fragment.app.FragmentResultListener;
 public class ReceiverFragment extends Fragment {
 
     private TextView resultTextView;
-    public static final String REQUEST_KEY = "result_api_request_key";
-    public static final String BUNDLE_KEY = "message_data_key";
+    public static final String REQUEST_KEY = "requestKey";
+    public static final String BUNDLE_KEY = "key";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class ReceiverFragment extends Fragment {
                     public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
                         String receivedMessage = result.getString(BUNDLE_KEY);
                         if (resultTextView != null && receivedMessage != null) {
-                            resultTextView.setText("Получено: " + receivedMessage);
+                            resultTextView.setText("Получено в Receiver: " + receivedMessage);
                         }
                     }
                 });

@@ -22,7 +22,9 @@ public interface GameApiService {
     @GET("games")
     Call<GameListResponse> searchGames(
             @Query("key") String apiKey,
-            @Query("search") String query
+            @Query("search") String query,
+            @Query("genres") String genres,
+            @Query("platforms") String platforms
     );
 
     @GET("games/{id}")

@@ -51,15 +51,35 @@ public class GameRepositoryImpl implements GameRepository {
     }
 
     @Override
-    public List<Game> searchGames(String query) {
+    public List<Game> searchGames(String query, String genre, String platform) {
         try {
-            Response<GameListResponse> response = apiService.searchGames(GameApiService.API_KEY, query).execute();
-            if (response.isSuccessful() && response.body() != null) {
-                List<Game> results = new ArrayList<>();
-                for (GameRemoteModel remote : response.body().getResults()) {
-                    results.add(mapRemoteToDomain(remote));
+            String genreParam = null;
+            if (genre != null && !genre.equals("Все жанры")) {
+                switch (genre) {
+                    case "RPG": genreParam = "role-playing-games-rpg"; break;
+                    case "Action": genreParam = "action"; break;
+                    case "Indie": genreParam = "indie"; break;
+                    case "Adventure": genreParam = "adventure"; break;
+                    case "Shooter": genreParam = "shooter"; break;
+                    default: genreParam = genre.toLowerCase().replace(" ", "-"); break;
                 }
-                return results;
+            }
+
+            String searchQuery = (query != null && !query.isEmpty()) ? query : null;
+
+            Response<GameListResponse> response = apiService.searchGames(
+                    GameApiService.API_KEY,
+                    searchQuery,
+                    genreParam,
+                    null
+            ).execute();
+
+            if (response.isSuccessful() && response.body() != null) {
+                List<Game> domainGames = new ArrayList<>();
+                for (GameRemoteModel remote : response.body().getResults()) {
+                    domainGames.add(mapRemoteToDomain(remote));
+                }
+                return domainGames;
             }
         } catch (IOException e) {
             e.printStackTrace();

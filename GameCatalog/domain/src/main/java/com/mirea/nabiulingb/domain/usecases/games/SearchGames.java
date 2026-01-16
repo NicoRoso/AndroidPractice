@@ -12,7 +12,7 @@ public class SearchGames {
         this.gameRepository = gameRepository;
     }
 
-    public List<Game> execute(String query) {
-        return gameRepository.searchGames(query);
+    public List<Game> execute(String query, String genre) {
+        return gameRepository.searchGames(query, genre, null);
     }
 }

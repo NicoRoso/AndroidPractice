@@ -55,12 +55,19 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-    public void searchGames(String query) {
+    public void searchGames(String query, String genre) {
+        _statusText.postValue("Поиск игр...");
         executor.execute(() -> {
             try {
-                List<Game> games = searchGamesUseCase.execute(query);
+                List<Game> games = searchGamesUseCase.execute(query, genre);
                 _gamesList.postValue(games);
+                if (games.isEmpty()) {
+                    _statusText.postValue("Ничего не найдено");
+                } else {
+                    _statusText.postValue("Результатов поиска: " + games.size());
+                }
             } catch (Exception e) {
+                _statusText.postValue("Ошибка поиска: " + e.getMessage());
                 _gamesList.postValue(Collections.emptyList());
             }
         });

@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class FakeGameApiService implements GameApiService {
+public class FakeGameApiService {
 
     private final List<GameRemoteModel> mockGames = createMockGames();
 
-    @Override
+    //@Override
     public Call<GameListResponse> getAllGames(String apiKey) {
         try {
             TimeUnit.MILLISECONDS.sleep(500);
@@ -29,7 +29,7 @@ public class FakeGameApiService implements GameApiService {
         return new MockCall<>(Response.success(responseBody));
     }
 
-    @Override
+    //@Override
     public Call<GameListResponse> searchGames(String apiKey, String query) {
         try {
             TimeUnit.MILLISECONDS.sleep(500);
@@ -54,7 +54,7 @@ public class FakeGameApiService implements GameApiService {
         return genres;
     }
 
-    @Override
+    //@Override
     public Call<GameDetailsRemoteModel> getGameDetails(int gameId, String apiKey) {
         return null;
     }

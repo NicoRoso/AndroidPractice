@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GameRepository {
     List<Game> getAllGames();
-    List<Game> searchGames(String query);
+    List<Game> searchGames(String query, String genre, String platform);
     List<Game> filterGames(String genre, String platform);
 
     GameDetails getGameDetails(int gameId);

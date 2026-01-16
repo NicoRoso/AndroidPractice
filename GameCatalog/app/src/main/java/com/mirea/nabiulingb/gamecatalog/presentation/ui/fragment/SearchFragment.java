@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,6 +23,8 @@ import com.mirea.nabiulingb.gamecatalog.R;
 import com.mirea.nabiulingb.gamecatalog.presentation.ui.GameAdapter;
 import com.mirea.nabiulingb.gamecatalog.presentation.viewmodel.MainViewModel;
 import com.mirea.nabiulingb.gamecatalog.presentation.viewmodel.MainViewModelFactory;
+
+import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
 
@@ -48,8 +51,9 @@ public class SearchFragment extends Fragment {
         initViews(view);
         setupViewModel();
         setupRecyclerView();
-        observeViewModel();
+        setupGenreSpinner();
         setListeners();
+        observeViewModel();
     }
 
     private void initViews(View view) {
@@ -83,41 +87,41 @@ public class SearchFragment extends Fragment {
                 gameAdapter.setGameList(games);
                 rvSearchResults.setVisibility(View.VISIBLE);
                 tvSearchStatus.setVisibility(View.GONE);
-            } else if (gameAdapter.getItemCount() > 0) {
-                gameAdapter.setGameList(null);
+            } else {
+                gameAdapter.setGameList(new ArrayList<>());
                 rvSearchResults.setVisibility(View.GONE);
                 tvSearchStatus.setVisibility(View.VISIBLE);
+                tvSearchStatus.setText("По вашему запросу ничего не найдено");
             }
         });
 
         mainViewModel.getStatusText().observe(getViewLifecycleOwner(), status -> {
-            if (status != null && (status.startsWith("Результатов поиска") || status.startsWith("Поиск игр по запросу") || status.startsWith("Ошибка при поиске"))) {
-                tvSearchStatus.setText(status);
-                tvSearchStatus.setVisibility(View.VISIBLE);
-            }
+            tvSearchStatus.setText(status);
         });
     }
 
     private void setListeners() {
         btnSearchAndFilter.setOnClickListener(v -> performSearch());
 
-        etSearchQuery.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
-                performSearch();
-                return true;
-            }
-            return false;
+        gameAdapter.setOnGameClickListener(game -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("gameId", game.getId());
+            Navigation.findNavController(requireView()).navigate(R.id.gameFragment, bundle);
         });
+    }
+
+    private void setupGenreSpinner() {
+        String[] genres = {"Все жанры", "Action", "RPG", "Indie", "Adventure", "Shooter", "Strategy", "Casual"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_item, genres);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerGenres.setAdapter(adapter);
     }
 
     private void performSearch() {
         String query = etSearchQuery.getText().toString().trim();
+        String selectedGenre = spinnerGenres.getSelectedItem().toString();
 
-        if (query.isEmpty()) {
-            Toast.makeText(requireContext(), "Введите запрос для поиска", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        mainViewModel.searchGames(query);
+        mainViewModel.searchGames(query, selectedGenre);
     }
 }

@@ -15,4 +15,8 @@ public class GetAllGames {
     public List<Game> execute() {
         return gameRepository.getAllGames();
     }
+
+    public GameRepository getRepository() {
+        return gameRepository;
+    }
 }

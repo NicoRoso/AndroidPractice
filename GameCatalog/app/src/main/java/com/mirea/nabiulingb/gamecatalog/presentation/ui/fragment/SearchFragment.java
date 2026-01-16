@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +32,7 @@ public class SearchFragment extends Fragment {
     private Spinner spinnerGenres;
     private GameAdapter gameAdapter;
     private MainViewModel mainViewModel;
+    private NavController navController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -41,6 +44,7 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
         initViews(view);
         setupViewModel();
         setupRecyclerView();
@@ -63,19 +67,23 @@ public class SearchFragment extends Fragment {
 
     private void setupRecyclerView() {
         gameAdapter = new GameAdapter();
+        gameAdapter.setOnGameClickListener(game -> {
+            Bundle args = new Bundle();
+            args.putInt("gameId", game.getId());
+            navController.navigate(R.id.gameFragment, args);
+        });
+
         rvSearchResults.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvSearchResults.setAdapter(gameAdapter);
     }
 
     private void observeViewModel() {
         mainViewModel.getGamesList().observe(getViewLifecycleOwner(), games -> {
-
             if (games != null && !games.isEmpty()) {
                 gameAdapter.setGameList(games);
                 rvSearchResults.setVisibility(View.VISIBLE);
                 tvSearchStatus.setVisibility(View.GONE);
             } else if (gameAdapter.getItemCount() > 0) {
-
                 gameAdapter.setGameList(null);
                 rvSearchResults.setVisibility(View.GONE);
                 tvSearchStatus.setVisibility(View.VISIBLE);

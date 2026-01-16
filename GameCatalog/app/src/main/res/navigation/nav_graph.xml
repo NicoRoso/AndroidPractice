@@ -23,4 +23,15 @@
         android:label="Профиль"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.mirea.nabiulingb.gamecatalog.presentation.ui.fragment.GameFragment"
+        android:label="Страница игры">
+
+        <argument
+            android:name="gameId"
+            app:argType="integer" />
+
+    </fragment>
+
 </navigation>

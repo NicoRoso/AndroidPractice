@@ -1,5 +1,6 @@
 package com.mirea.nabiulingb.data.remote.api;
 
+import com.mirea.nabiulingb.data.remote.models.GameDetailsRemoteModel;
 import com.mirea.nabiulingb.data.remote.models.GameListResponse;
 import com.mirea.nabiulingb.data.remote.models.GameRemoteModel;
 import com.mirea.nabiulingb.data.remote.models.GenreRemoteModel; // НОВЫЙ ИМПОРТ
@@ -51,6 +52,11 @@ public class FakeGameApiService implements GameApiService {
         List<GenreRemoteModel> genres = new ArrayList<>();
         genres.add(new GenreRemoteModel(name.hashCode(), name, name.toLowerCase().replace(" ", "-")));
         return genres;
+    }
+
+    @Override
+    public Call<GameDetailsRemoteModel> getGameDetails(int gameId, String apiKey) {
+        return null;
     }
 
     private List<GameRemoteModel> createMockGames() {

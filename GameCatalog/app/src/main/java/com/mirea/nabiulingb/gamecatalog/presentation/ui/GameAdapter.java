@@ -17,10 +17,19 @@ import java.util.List;
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder> {
 
     private List<Game> gameList = Collections.emptyList();
+    private OnGameClickListener onGameClickListener;
 
     public void setGameList(List<Game> newGameList) {
         this.gameList = newGameList != null ? newGameList : Collections.emptyList();
         notifyDataSetChanged();
+    }
+
+    public void setOnGameClickListener(OnGameClickListener listener) {
+        this.onGameClickListener = listener;
+    }
+
+    public interface OnGameClickListener {
+        void onGameClick(Game game);
     }
 
     @NonNull
@@ -41,7 +50,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
         return gameList.size();
     }
 
-    static class GameViewHolder extends RecyclerView.ViewHolder {
+    class GameViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvTitle;
         private final TextView tvGenre;
         private final ImageView ivGameImage;
@@ -51,30 +60,27 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameViewHolder
             tvTitle = itemView.findViewById(R.id.tvGameTitle);
             tvGenre = itemView.findViewById(R.id.tvGameGenre);
             ivGameImage = itemView.findViewById(R.id.ivGameImage);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && onGameClickListener != null) {
+                    onGameClickListener.onGameClick(gameList.get(position));
+                }
+            });
         }
 
         public void bind(Game game) {
             tvTitle.setText(game.getTitle());
+            tvGenre.setText(game.getGenre());
 
-            // --- ИСПРАВЛЕННАЯ ЛОГИКА ДЛЯ ЖАНРА ---
-            String genre = game.getGenre();
-            String displayGenre = (genre != null && !genre.trim().isEmpty())
-                    ? genre
-                    : "Неизвестный"; // Отображаем "Неизвестный" вместо null
-
-            tvGenre.setText(String.format("Жанр: %s | Рейтинг: %.1f", displayGenre, game.getRating()));
-            // ------------------------------------
-
-            String imageUrl = game.getImageUrl();
-
-            if (imageUrl != null && !imageUrl.isEmpty()) {
+            if (game.getImageUrl() != null && !game.getImageUrl().isEmpty()) {
                 Picasso.get()
-                        .load(imageUrl)
+                        .load(game.getImageUrl())
                         .placeholder(R.drawable.loading_placeholder)
                         .error(R.drawable.error_placeholder)
+                        .fit()
+                        .centerCrop()
                         .into(ivGameImage);
-            } else {
-                ivGameImage.setImageResource(R.drawable.no_image_available);
             }
         }
     }

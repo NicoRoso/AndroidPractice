@@ -1,5 +1,6 @@
 package com.mirea.nabiulingb.data.remote.api;
 
+import com.mirea.nabiulingb.data.remote.models.GameDetailsRemoteModel;
 import com.mirea.nabiulingb.data.remote.models.GameListResponse;
 import com.mirea.nabiulingb.data.remote.models.GameRemoteModel;
 
@@ -7,6 +8,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface GameApiService {
@@ -21,5 +23,11 @@ public interface GameApiService {
     Call<GameListResponse> searchGames(
             @Query("key") String apiKey,
             @Query("search") String query
+    );
+
+    @GET("games/{id}")
+    Call<GameDetailsRemoteModel> getGameDetails(
+            @Path("id") int gameId,
+            @Query("key") String apiKey
     );
 }

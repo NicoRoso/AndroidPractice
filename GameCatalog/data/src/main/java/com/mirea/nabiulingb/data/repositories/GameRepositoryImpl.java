@@ -3,17 +3,18 @@ package com.mirea.nabiulingb.data.repositories;
 import com.mirea.nabiulingb.data.local.dao.GameDao;
 import com.mirea.nabiulingb.data.local.entities.GameEntity;
 import com.mirea.nabiulingb.data.remote.api.GameApiService;
+import com.mirea.nabiulingb.data.remote.models.GameDetailsRemoteModel;
 import com.mirea.nabiulingb.data.remote.models.GameListResponse;
 import com.mirea.nabiulingb.data.remote.models.GameRemoteModel;
 import com.mirea.nabiulingb.data.remote.models.GenreRemoteModel;
 import com.mirea.nabiulingb.domain.models.Game;
+import com.mirea.nabiulingb.domain.models.GameDetails;
 import com.mirea.nabiulingb.domain.repositories.GameRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import retrofit2.Response;
 
 public class GameRepositoryImpl implements GameRepository {
@@ -24,7 +25,96 @@ public class GameRepositoryImpl implements GameRepository {
     public GameRepositoryImpl(GameDao gameDao, GameApiService apiService) {
         this.gameDao = gameDao;
         this.apiService = apiService;
-        initializeDatabaseWithTestData();
+    }
+
+    @Override
+    public List<Game> getAllGames() {
+        try {
+            Response<GameListResponse> response = apiService.getAllGames(GameApiService.API_KEY).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                List<Game> domainGames = new ArrayList<>();
+                for (GameRemoteModel remote : response.body().getResults()) {
+                    domainGames.add(mapRemoteToDomain(remote));
+                }
+                return domainGames;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        List<GameEntity> entities = gameDao.getAllGames();
+        List<Game> domainGames = new ArrayList<>();
+        for (GameEntity entity : entities) {
+            domainGames.add(mapEntityToDomain(entity));
+        }
+        return domainGames;
+    }
+
+    @Override
+    public List<Game> searchGames(String query) {
+        try {
+            Response<GameListResponse> response = apiService.searchGames(GameApiService.API_KEY, query).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                List<Game> results = new ArrayList<>();
+                for (GameRemoteModel remote : response.body().getResults()) {
+                    results.add(mapRemoteToDomain(remote));
+                }
+                return results;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Game> filterGames(String genre, String platform) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public GameDetails getGameDetails(int gameId) {
+        try {
+            Response<GameDetailsRemoteModel> response = apiService.getGameDetails(gameId, GameApiService.API_KEY).execute();
+            if (response.isSuccessful() && response.body() != null) {
+                GameDetailsRemoteModel r = response.body();
+
+                StringBuilder genresBuilder = new StringBuilder();
+                if (r.getGenres() != null) {
+                    for (int i = 0; i < r.getGenres().size(); i++) {
+                        genresBuilder.append(r.getGenres().get(i).getName());
+                        if (i < r.getGenres().size() - 1) genresBuilder.append(", ");
+                    }
+                }
+
+                StringBuilder platformsBuilder = new StringBuilder();
+                if (r.getPlatforms() != null) {
+                    for (int i = 0; i < r.getPlatforms().size(); i++) {
+                        platformsBuilder.append(r.getPlatforms().get(i).getPlatform().getName());
+                        if (i < r.getPlatforms().size() - 1) platformsBuilder.append(", ");
+                    }
+                }
+
+                return new GameDetails(
+                        r.getId(), r.getTitle(), r.getDescription(), r.getSlug(),
+                        r.getNameOriginal(), r.getMetacritic(), r.getBackgroundImage(),
+                        r.getBackgroundImageAdditional(), r.getWebsite(), r.getRating(),
+                        r.getRatingTop(), r.getPlaytime(), r.getReleased(),
+                        genresBuilder.toString(), platformsBuilder.toString()
+                );
+            }
+        } catch (IOException e) { e.printStackTrace(); }
+
+        GameEntity entity = gameDao.getGameById(gameId);
+        if (entity != null) {
+            return new GameDetails(
+                    entity.getId(), entity.getTitle(), entity.getDescription(), "",
+                    entity.getTitle(), 0, entity.getImageUrl(), entity.getImageUrl(),
+                    "", entity.getRating(), 0, 0, entity.getReleaseDate(),
+                    entity.getGenre(), entity.toString()
+            );
+        }
+        return null;
     }
 
     private Game mapEntityToDomain(GameEntity entity) {
@@ -37,176 +127,33 @@ public class GameRepositoryImpl implements GameRepository {
                 entity.getReleaseDate(),
                 entity.getRating(),
                 entity.getImageUrl(),
-                entity.getPrice(),
-                entity.getDiscount()
-        );
-    }
-
-    private List<Game> mapEntitiesToDomains(List<GameEntity> entities) {
-        List<Game> games = new ArrayList<>();
-        for (GameEntity entity : entities) {
-            games.add(mapEntityToDomain(entity));
-        }
-        return games;
-    }
-
-    private String extractPrimaryGenreName(List<GenreRemoteModel> genres) {
-        if (genres != null && !genres.isEmpty()) {
-            return genres.get(0).getName();
-        }
-        return null;
-    }
-
-    private GameEntity mapRemoteToEntity(GameRemoteModel remote) {
-        String primaryGenre = extractPrimaryGenreName(remote.getGenres());
-
-        return new GameEntity(
-                remote.getId(),
-                remote.getTitle(),
-                remote.getDescription(),
-                primaryGenre,
-                remote.getPlatform(),
-                remote.getReleaseDate(),
-                remote.getRating(),
-                remote.getImageUrl(),
-                remote.getPrice(),
-                remote.getDiscount()
+                "Unknown",
+                "Unknown",
+                Collections.emptyList()
         );
     }
 
     private Game mapRemoteToDomain(GameRemoteModel remote) {
-        String primaryGenre = extractPrimaryGenreName(remote.getGenres());
+        StringBuilder genresStr = new StringBuilder();
+        if (remote.getGenres() != null) {
+            for (GenreRemoteModel g : remote.getGenres()) {
+                if (genresStr.length() > 0) genresStr.append(", ");
+                genresStr.append(g.getName());
+            }
+        }
 
         return new Game(
                 remote.getId(),
                 remote.getTitle(),
                 remote.getDescription(),
-                primaryGenre,
+                genresStr.toString(),
                 remote.getPlatform(),
                 remote.getReleaseDate(),
                 remote.getRating(),
                 remote.getImageUrl(),
-                remote.getPrice(),
-                remote.getDiscount()
+                "Unknown",
+                "Unknown",
+                Collections.emptyList()
         );
-    }
-
-    private List<GameEntity> mapRemoteToEntities(List<GameRemoteModel> remoteModels) {
-        List<GameEntity> entities = new ArrayList<>();
-        for (GameRemoteModel remote : remoteModels) {
-            entities.add(mapRemoteToEntity(remote));
-        }
-        return entities;
-    }
-
-    private List<Game> mapRemoteToDomains(List<GameRemoteModel> remoteModels) {
-        List<Game> domains = new ArrayList<>();
-        for (GameRemoteModel remote : remoteModels) {
-            domains.add(mapRemoteToDomain(remote));
-        }
-        return domains;
-    }
-
-    @Override
-    public List<Game> getAllGames() {
-        try {
-            Response<GameListResponse> response =
-                    apiService.getAllGames(GameApiService.API_KEY).execute();
-
-            if (response.isSuccessful() && response.body() != null) {
-                List<GameRemoteModel> remoteGames = response.body().getResults();
-
-                List<GameEntity> entitiesToCache = mapRemoteToEntities(remoteGames);
-                gameDao.insertAll(entitiesToCache);
-
-                return mapRemoteToDomains(remoteGames);
-            } else {
-                String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
-                System.err.println("API Error " + response.code() + ": " + errorBody);
-            }
-        } catch (IOException e) {
-            System.err.println("API Error. Falling back to local cache: " + e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        List<GameEntity> entities = gameDao.getAllGames();
-        return mapEntitiesToDomains(entities);
-    }
-
-    @Override
-    public List<Game> searchGames(String query) {
-        try {
-            Response<GameListResponse> response =
-                    apiService.searchGames(GameApiService.API_KEY, query).execute();
-
-            if (response.isSuccessful() && response.body() != null) {
-                return mapRemoteToDomains(response.body().getResults());
-            } else {
-                String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
-                System.err.println("Search API Error " + response.code() + ": " + errorBody);
-            }
-        } catch (IOException e) {
-            System.err.println("API Error during search: " + e.getMessage());
-        }
-
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<Game> filterGames(String genre, String platform) {
-        return getAllGames();
-    }
-
-
-    @Override
-    public Game getGameDetails(int gameId) {
-        GameEntity entity = gameDao.getGameById(gameId);
-        return entity != null ? mapEntityToDomain(entity) : null;
-    }
-
-    private void initializeDatabaseWithTestData() {
-        new Thread(() -> {
-            if (gameDao.getAllGames().isEmpty()) {
-                List<GameEntity> entities = createTestGameEntities();
-                gameDao.insertAll(entities);
-            }
-        }).start();
-    }
-
-    private List<GameEntity> createTestGameEntities() {
-        List<GameEntity> games = new ArrayList<>();
-
-        games.add(new GameEntity(1, "The Witcher 3: Wild Hunt",
-                "Action RPG игра в открытом мире в фэнтези", "RPG",
-                "PC, PS4, Xbox One", "2015-05-19", 9.7,
-                "https://example.com/witcher3.jpg", 39.99, 20));
-
-        games.add(new GameEntity(2, "Cyberpunk 2077",
-                "Action-adventure RPG с открытым миром", "RPG",
-                "PC, PS5, Xbox Series X", "2020-12-10", 8.5,
-                "https://example.com/cyberpunk.jpg", 59.99, null));
-
-        games.add(new GameEntity(3, "Red Dead Redemption 2",
-                "Action-adventure игра в сеттинге дикого запада", "Action",
-                "PC, PS4, Xbox One", "2018-10-26", 9.8,
-                "https://example.com/rdr2.jpg", 49.99, 30));
-
-        games.add(new GameEntity(4, "The Last of Us Part II",
-                "Action-adventure survival horror", "Action",
-                "PS4, PS5", "2020-06-19", 9.0,
-                "https://example.com/tlou2.jpg", 69.99, 15));
-
-        games.add(new GameEntity(5, "Minecraft",
-                "Sandbox construction game", "Sandbox",
-                "PC, Mobile, Console", "2011-11-18", 9.5,
-                "https://example.com/minecraft.jpg", 26.95, null));
-
-        games.add(new GameEntity(6, "Batman: Arkham Knight",
-                "Action-adventure игра про Бэтмена и завершающая игра в серии Аркхем", "Action",
-                "PC, PS4, Xbox One", "2015-06-23", 9.2,
-                "https://example.com/batman_arkham_knight.jpg", 29.99, 40));
-
-        return games;
     }
 }

@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +30,7 @@ public class GameListFragment extends Fragment {
     private RecyclerView recyclerView;
     private GameAdapter gameAdapter;
     private MainViewModel mainViewModel;
+    private NavController navController;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -38,6 +42,7 @@ public class GameListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        navController = Navigation.findNavController(view);
         initViews(view);
         setupViewModel();
         setupRecyclerView();
@@ -59,7 +64,23 @@ public class GameListFragment extends Fragment {
 
     private void setupRecyclerView() {
         gameAdapter = new GameAdapter();
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        gameAdapter.setOnGameClickListener(game -> {
+            int gameId = game.getId();
+            List<Game> currentGames = mainViewModel.getGamesList().getValue();
+
+            if (currentGames != null) {
+                for (Game g : currentGames) {
+                    if (g.getId() == gameId) {
+                        Bundle args = new Bundle();
+                        args.putInt("gameId", gameId);
+                        navController.navigate(R.id.gameFragment, args);
+                        break;
+                    }
+                }
+            }
+        });
+
+        recyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 2));
         recyclerView.setAdapter(gameAdapter);
     }
 

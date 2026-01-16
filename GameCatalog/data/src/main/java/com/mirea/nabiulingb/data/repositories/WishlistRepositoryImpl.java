@@ -43,18 +43,47 @@ public class WishlistRepositoryImpl implements WishlistRepository {
     private List<WishlistItem> createTestWishlist() {
         List<WishlistItem> wishlist = new ArrayList<>();
 
-        Game cyberpunk = new Game(2, "Cyberpunk 2077",
-                "Open-world RPG", "RPG", "PC", "2020-12-10", 8.5,
-                "https://example.com/cyberpunk.jpg", 59.99, null);
+        Game cyberpunk = new Game(
+                2,
+                "Cyberpunk 2077",
+                "Open-world RPG",
+                "RPG",
+                "PC",
+                "2020-12-10",
+                8.5,
+                "https://example.com/cyberpunk.jpg",
+                "59.99",
+                "0",
+                new ArrayList<>()
+        );
 
-        Game tlou2 = new Game(4, "The Last of Us Part II",
-                "Action-adventure survival horror", "Action",
-                "PS5", "2020-06-19", 9.0,
-                "https://example.com/tlou2.jpg", 69.99, null);
+        Game tlou2 = new Game(
+                4,
+                "The Last of Us Part II",
+                "Action-adventure survival horror",
+                "Action",
+                "PS5",
+                "2020-06-19",
+                9.0,
+                "https://example.com/tlou2.jpg",
+                "69.99",
+                "0",
+                new ArrayList<>()
+        );
 
-        Game batman = new Game(6, "Batman: Arkham Knight",
-                "Action-adventure Batman game", "Action", "PC, PS4", "2015-06-23", 9.2,
-                "https://example.com/batman_arkham_knight.jpg", 29.99, 40);
+        Game batman = new Game(
+                6,
+                "Batman: Arkham Knight",
+                "Action-adventure Batman game",
+                "Action",
+                "PC, PS4",
+                "2015-06-23",
+                9.2,
+                "https://example.com/batman_arkham_knight.jpg",
+                "29.99",
+                "40",
+                new ArrayList<>()
+        );
 
         wishlist.add(new WishlistItem(1, cyberpunk, "2024-01-01"));
         wishlist.add(new WishlistItem(2, tlou2, "2024-01-05"));
